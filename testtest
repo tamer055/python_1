@@ -1,0 +1,127 @@
+import os, csv, json
+
+
+class FileManager:
+    def __init__(self, file):
+        self.file = file
+
+    def check_file(self):
+        print("Checking file...")
+        if os.path.exists(self.file):
+            print("File found:", self.file)
+            return True
+        print("File not found")
+        return False
+
+    def create_output_folder(self):
+        print("Checking output folder...")
+        if not os.path.exists("output"):
+            os.makedirs("output")
+            print("Output folder created: output/")
+        else:
+            print("Output folder ready")
+
+
+class DataLoader:
+    def __init__(self, file):
+        self.file = file
+        self.students = []
+
+    def load(self):
+        print("Loading data...")
+        try:
+            with open(self.file, encoding="utf-8") as f:
+                self.students = list(csv.DictReader(f))
+            print("Data loaded successfully:", len(self.students), "students")
+        except FileNotFoundError:
+            print("Error: file not found")
+
+    def preview(self):
+        print("\nFirst 5 rows:")
+        print("-" * 30)
+        for s in self.students[:5]:
+            print(
+                s["student_id"], "|",
+                s["age"], "|",
+                s["gender"], "|",
+                s["country"], "| GPA:", s["GPA"]
+            )
+        print("-" * 30)
+
+
+class DataAnalyser:
+    def __init__(self, students):
+        self.students = students
+        self.result = {}
+
+    def analyse(self):
+        try:
+            low_students = list(filter(lambda s: float(s["sleep_hours"]) < 6, self.students))
+            high_students = list(filter(lambda s: float(s["sleep_hours"]) >= 6, self.students))
+
+            low = list(map(lambda s: float(s["GPA"]), low_students))
+            high = list(map(lambda s: float(s["GPA"]), high_students))
+
+            avg_low = round(sum(low) / len(low), 2)
+            avg_high = round(sum(high) / len(high), 2)
+            diff = round(avg_high - avg_low, 2)
+
+            self.result = {
+                "analysis": "Sleep vs GPA",
+                "total_students": len(self.students),
+                "low_sleep": {
+                    "students": len(low_students),
+                    "avg_gpa": avg_low
+                },
+                "high_sleep": {
+                    "students": len(high_students),
+                    "avg_gpa": avg_high
+                },
+                "gpa_difference": diff
+            }
+
+        except Exception:
+            print("Analysis error")
+
+    def print_results(self):
+        print("\n------------------------------")
+        print("Sleep vs GPA Analysis")
+        print("------------------------------")
+        print("Students sleeping < 6 hours:", self.result["low_sleep"]["students"])
+        print("Average GPA (<6 hours):", self.result["low_sleep"]["avg_gpa"])
+        print()
+        print("Students sleeping >= 6 hours:", self.result["high_sleep"]["students"])
+        print("Average GPA (>=6 hours):", self.result["high_sleep"]["avg_gpa"])
+        print()
+        print("Difference in avg GPA:", self.result["gpa_difference"])
+        print("------------------------------")
+
+
+class ResultSaver:
+    def __init__(self, result):
+        self.result = result
+
+    def save_json(self):
+        try:
+            with open("output/result.json", "w") as f:
+                json.dump(self.result, f, indent=4)
+            print("Result saved to output/result.json")
+        except Exception:
+            print("Save error")
+
+
+fm = FileManager("students.csv")
+
+if fm.check_file():
+    fm.create_output_folder()
+
+    dl = DataLoader("students.csv")
+    dl.load()
+    dl.preview()
+
+    da = DataAnalyser(dl.students)
+    da.analyse()
+    da.print_results()
+
+    rs = ResultSaver(da.result)
+    rs.save_json()
