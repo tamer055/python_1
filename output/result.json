@@ -1,5 +1,85 @@
 {
-    "analysis": "Sleep vs GPA",
-    "low_sleep": 3.48,
-    "high_sleep": 3.65
+    "analysis": "Top 10 Students",
+    "top_10": [
+        {
+            "rank": 1,
+            "student_id": "S00001",
+            "country": "Germany",
+            "major": "Law",
+            "score": "100",
+            "GPA": "3.81"
+        },
+        {
+            "rank": 2,
+            "student_id": "S00002",
+            "country": "USA",
+            "major": "Economics",
+            "score": "100",
+            "GPA": "3.46"
+        },
+        {
+            "rank": 3,
+            "student_id": "S00003",
+            "country": "Canada",
+            "major": "Medicine",
+            "score": "100",
+            "GPA": "4.0"
+        },
+        {
+            "rank": 4,
+            "student_id": "S00004",
+            "country": "Australia",
+            "major": "Physics",
+            "score": "100",
+            "GPA": "3.77"
+        },
+        {
+            "rank": 5,
+            "student_id": "S00005",
+            "country": "Australia",
+            "major": "Medicine",
+            "score": "100",
+            "GPA": "4.0"
+        },
+        {
+            "rank": 6,
+            "student_id": "S00007",
+            "country": "Netherlands",
+            "major": "Economics",
+            "score": "100",
+            "GPA": "4.0"
+        },
+        {
+            "rank": 7,
+            "student_id": "S00008",
+            "country": "Netherlands",
+            "major": "Law",
+            "score": "100",
+            "GPA": "3.5"
+        },
+        {
+            "rank": 8,
+            "student_id": "S00009",
+            "country": "Japan",
+            "major": "Biology",
+            "score": "100",
+            "GPA": "3.72"
+        },
+        {
+            "rank": 9,
+            "student_id": "S00011",
+            "country": "Brazil",
+            "major": "Biology",
+            "score": "100",
+            "GPA": "3.24"
+        },
+        {
+            "rank": 10,
+            "student_id": "S00013",
+            "country": "France",
+            "major": "Physics",
+            "score": "100",
+            "GPA": "3.51"
+        }
+    ]
 }

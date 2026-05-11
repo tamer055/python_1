@@ -1,0 +1,12 @@
+{
+    "total_students": 5,
+    "low_sleep": {
+        "students": 2,
+        "avg_gpa": 2.15
+    },
+    "high_sleep": {
+        "students": 3,
+        "avg_gpa": 3.73
+    },
+    "gpa_difference": 1.58
+}
