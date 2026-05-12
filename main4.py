@@ -1,4 +1,5 @@
 import json
+import unittest
 
 
 class DataAnalyser:
@@ -173,3 +174,50 @@ saver = ResultSaver({}, "result.json")
 report = Report(analysers[0], saver)
 
 report.generate()
+
+
+
+class TestAnalyser(unittest.TestCase):
+
+    def setUp(self):
+        self.sample = [
+            {"GPA": "3.8", "sleep_hours": "7", "country": "USA"},
+            {"GPA": "2.5", "sleep_hours": "5", "country": "India"},
+            {"GPA": "3.9", "sleep_hours": "8", "country": "USA"},
+            {"GPA": "1.8", "sleep_hours": "4", "country": "Canada"},
+            {"GPA": "3.5", "sleep_hours": "6", "country": "India"},
+        ]
+
+    def test_result_is_not_empty(self):
+        analyser = SleepAnalyser(self.sample)
+
+        analyser.analyse()
+
+        self.assertNotEqual(analyser.result, {})
+
+    def test_total_students(self):
+        analyser = SleepAnalyser(self.sample)
+
+        analyser.analyse()
+
+        self.assertEqual(analyser.result["total_students"], 5)
+
+    def test_result_has_required_keys(self):
+        analyser = SleepAnalyser(self.sample)
+
+        analyser.analyse()
+
+        self.assertIn("low_sleep", analyser.result)
+        self.assertIn("high_sleep", analyser.result)
+        self.assertIn("gpa_difference", analyser.result)
+
+    def test_analyse_twice(self):
+        analyser = SleepAnalyser(self.sample)
+
+        analyser.analyse()
+
+        result1 = analyser.result.copy()
+
+        analyser.analyse()
+
+        self.assertEqual(analyser.result, result1)
